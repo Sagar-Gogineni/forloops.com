@@ -49,7 +49,7 @@
     var grid = document.getElementById('writing-grid');
     if (!grid) return;
 
-    var MEDIUM_USERNAME = 'YOUR_MEDIUM_USERNAME';
+    var MEDIUM_USERNAME = 'sagargr111';
     var url =
       'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@' +
       MEDIUM_USERNAME;
