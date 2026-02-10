@@ -1,0 +1,15 @@
+# forloops
+> AI governance and compliance engineering by Sagar Gogineni.
+> Building open-source tooling for EU AI Act compliance.
+
+## About
+- [About Sagar Gogineni](https://forloops.com/#about): AI Engineer based in Berlin. 5+ years across banking, pharma, and automotive. MSc in Computer Science from SRH Berlin. Specializes in building compliance-as-code tooling for the EU AI Act.
+
+## Projects
+- [AgentGuard](https://github.com/Sagar-Gogineni/agentguard): Open-source Python SDK for EU AI Act compliance — risk classification, bias detection, transparency enforcement, and audit trail generation.
+
+## Writing
+- [Medium Articles](https://medium.com/@YOUR_MEDIUM_USERNAME): Technical deep-dives on EU AI Act compliance, AI governance, and building compliance tooling for engineering teams.
+
+## Contact
+- [Get in Touch](https://forloops.com/#contact): For inquiries about AI governance tooling or collaboration.
