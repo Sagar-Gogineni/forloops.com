@@ -886,7 +886,13 @@ ul {
   }
 
   .demo__panel {
-    min-height: 280px;
+    min-height: auto;
+  }
+
+  .demo__panel-body {
+    font-size: 0.75rem;
+    padding: 16px;
+    overflow-x: auto;
   }
 
   .proof__inner {
