@@ -44,6 +44,82 @@
     });
   }
 
+  // ===== GitHub Projects (fetched by topic) =====
+  function initProjects() {
+    var grid = document.getElementById('projects-grid');
+    if (!grid) return;
+
+    var GITHUB_USERNAME = 'Sagar-Gogineni';
+    var TOPIC = 'featured';
+    var url =
+      'https://api.github.com/search/repositories?q=user:' +
+      GITHUB_USERNAME + '+topic:' + TOPIC + '&sort=updated&order=desc';
+
+    fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('GitHub fetch failed');
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.items || !data.items.length) {
+          throw new Error('No repos found');
+        }
+        renderProjects(grid, data.items, GITHUB_USERNAME);
+      })
+      .catch(function () {
+        renderProjectsFallback(grid, GITHUB_USERNAME);
+      });
+  }
+
+  function renderProjects(grid, repos, username) {
+    var html = repos
+      .map(function (repo) {
+        var name = sanitize(repo.name);
+        var desc = sanitize(repo.description || 'No description');
+        var lang = repo.language ? sanitize(repo.language) : '';
+        var stars = repo.stargazers_count || 0;
+        var url = sanitize(repo.html_url);
+        var topics = (repo.topics || [])
+          .filter(function (t) { return t !== 'featured'; })
+          .slice(0, 4);
+
+        var tagsHtml = '';
+        if (lang) {
+          tagsHtml += '<span class="tag">' + lang + '</span>';
+        }
+        topics.forEach(function (t) {
+          tagsHtml += '<span class="tag">' + sanitize(t) + '</span>';
+        });
+
+        return (
+          '<article class="project-card">' +
+          '<div class="project-card__header">' +
+          '<h3 class="project-card__title">' + name + '</h3>' +
+          '<span class="project-card__star-count" aria-label="' + stars + ' stars">' +
+          '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l1.85 4.1L14.5 6l-3.5 3.1.95 4.4L8 11.1 4.05 13.5 5 9.1 1.5 6l4.65-.4L8 1.5z" fill="#22d3ee"/></svg> ' +
+          stars +
+          '</span>' +
+          '</div>' +
+          '<p class="project-card__desc">' + desc + '</p>' +
+          '<div class="project-card__tech">' + tagsHtml + '</div>' +
+          '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">View on GitHub &rarr;</a>' +
+          '</article>'
+        );
+      })
+      .join('');
+
+    grid.innerHTML = html;
+  }
+
+  function renderProjectsFallback(grid, username) {
+    grid.innerHTML =
+      '<article class="project-card">' +
+      '<h3 class="project-card__title">View my projects on GitHub</h3>' +
+      '<p class="project-card__desc">Open-source tooling for AI governance, compliance, and security.</p>' +
+      '<a href="https://github.com/' + sanitize(username) + '" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">Visit GitHub &rarr;</a>' +
+      '</article>';
+  }
+
   // ===== Medium RSS Feed =====
   function initBlogFeed() {
     var grid = document.getElementById('writing-grid');
@@ -188,6 +264,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     initScrollAnimations();
     initMobileNav();
+    initProjects();
     initBlogFeed();
     initForm();
   });

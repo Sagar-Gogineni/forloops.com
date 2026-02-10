@@ -375,12 +375,22 @@ ul {
 }
 
 /* ===== Projects ===== */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
 .project-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 36px;
-  max-width: 640px;
+  transition: border-color 0.2s;
+}
+
+.project-card:hover {
+  border-color: var(--text-dim);
 }
 
 .project-card__header {
@@ -392,10 +402,20 @@ ul {
 }
 
 .project-card__title {
-  font-family: var(--font-serif);
-  font-size: 1.75rem;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 500;
   color: var(--white);
+  text-transform: uppercase;
+}
+
+.project-card__star-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.813rem;
+  color: var(--text-muted);
 }
 
 .project-card__stars {
@@ -754,6 +774,10 @@ ul {
   }
 
   .writing__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects__grid {
     grid-template-columns: 1fr;
   }
 

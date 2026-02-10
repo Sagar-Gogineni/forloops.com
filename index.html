@@ -157,32 +157,15 @@
     <section class="section projects" id="projects">
       <div class="container">
         <h2 class="section__label fade-up">Projects</h2>
-        <article class="project-card fade-up">
-          <div class="project-card__header">
-            <h3 class="project-card__title">AgentGuard</h3>
-            <img
-              src="https://img.shields.io/github/stars/Sagar-Gogineni/agentguard?style=flat&color=22d3ee&labelColor=141416"
-              alt="AgentGuard GitHub stars"
-              class="project-card__stars"
-              loading="lazy"
-              width="80"
-              height="20"
-            >
+        <div class="projects__grid fade-up" id="projects-grid">
+          <!-- Loading skeletons (replaced by JS) -->
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton skeleton--title"></div>
+            <div class="skeleton skeleton--text"></div>
+            <div class="skeleton skeleton--text skeleton--short"></div>
+            <div class="skeleton skeleton--meta"></div>
           </div>
-          <p class="project-card__desc">Open-source Python SDK for EU AI Act compliance — add governance to your AI pipeline in minutes, not months.</p>
-          <ul class="project-card__features" role="list">
-            <li>Risk classification per Annex III</li>
-            <li>Bias detection across protected attributes</li>
-            <li>Auto-generated transparency disclosures</li>
-            <li>Complete audit trail for regulatory evidence</li>
-          </ul>
-          <div class="project-card__tech">
-            <span class="tag">Python</span>
-            <span class="tag">EU AI Act</span>
-            <span class="tag">Open Source</span>
-          </div>
-          <a href="https://github.com/Sagar-Gogineni/agentguard" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">View on GitHub &rarr;</a>
-        </article>
+        </div>
       </div>
     </section>
 
