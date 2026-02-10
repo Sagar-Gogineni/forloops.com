@@ -120,6 +120,84 @@
       '</article>';
   }
 
+  // ===== Demo Animation =====
+  function initDemo() {
+    var terminal = document.getElementById('demo-terminal');
+    if (!terminal) return;
+
+    var beforeEl = document.getElementById('demo-before');
+    var afterEl = document.getElementById('demo-after');
+    if (!beforeEl || !afterEl) return;
+
+    var beforeLines = [
+      { text: '&gt; response = llm.generate("Evaluate loan application")', cls: 'cmd' },
+      { text: '', cls: 'muted' },
+      { text: '"Application denied based on credit score analysis."', cls: 'output' },
+      { text: '', cls: 'muted' },
+      { text: '⚠ No risk classification', cls: 'warn' },
+      { text: '⚠ No bias detection', cls: 'warn' },
+      { text: '⚠ No audit trail', cls: 'warn' },
+      { text: '⚠ Non-compliant under EU AI Act', cls: 'warn' },
+      { text: '', cls: 'muted' },
+      { text: '✗ You\'re exposed.', cls: 'warn' }
+    ];
+
+    var afterLines = [
+      { text: '&gt; result = guard.run(llm, "Evaluate loan application")', cls: 'cmd' },
+      { text: '', cls: 'muted' },
+      { text: '⬤ Risk Level: HIGH-RISK (Annex III, 5b)', cls: 'cyan' },
+      { text: '⬤ Obligations: Conformity assessment required', cls: 'cyan' },
+      { text: '⬤ Bias Check: PASSED', cls: 'success' },
+      { text: '⬤ Transparency: Disclosure generated', cls: 'success' },
+      { text: '⬤ Audit Trail: Logged', cls: 'success' },
+      { text: '', cls: 'muted' },
+      { text: '"Application denied based on credit score analysis."', cls: 'output' },
+      { text: '', cls: 'muted' },
+      { text: '✓ Same response. Now fully compliant.', cls: 'success' }
+    ];
+
+    // Build DOM lines
+    buildLines(beforeEl, beforeLines);
+    buildLines(afterEl, afterLines);
+
+    // Animate on scroll
+    var hasPlayed = false;
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && !hasPlayed) {
+            hasPlayed = true;
+            animateLines(beforeEl, 0);
+            setTimeout(function () {
+              animateLines(afterEl, 0);
+            }, 800);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(terminal);
+  }
+
+  function buildLines(container, lines) {
+    lines.forEach(function (line) {
+      var div = document.createElement('div');
+      div.className = 'demo__line demo__line--' + line.cls;
+      div.innerHTML = line.text || '&nbsp;';
+      container.appendChild(div);
+    });
+  }
+
+  function animateLines(container, index) {
+    var lines = container.querySelectorAll('.demo__line');
+    if (index >= lines.length) return;
+    lines[index].classList.add('is-typed');
+    setTimeout(function () {
+      animateLines(container, index + 1);
+    }, 150);
+  }
+
   // ===== Medium RSS Feed =====
   function initBlogFeed() {
     var grid = document.getElementById('writing-grid');
@@ -265,6 +343,7 @@
     initScrollAnimations();
     initMobileNav();
     initProjects();
+    initDemo();
     initBlogFeed();
     initForm();
   });
