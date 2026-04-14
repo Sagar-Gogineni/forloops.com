@@ -17,6 +17,7 @@
   <meta name="twitter:description" content="One question. Instant risk tier. Is your AI system affected?">
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script data-goatcounter="https://forloops.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -330,6 +331,11 @@
       var cls = classifications[value];
       if (!cls) return;
 
+      // Track which option was selected (GoatCounter custom event)
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: '/assess/select/' + value, event: true });
+      }
+
       // Hide question, show result
       question.style.display = 'none';
       document.getElementById(cls.result).classList.add('visible');
@@ -339,6 +345,12 @@
       var cta = document.getElementById('cta-' + cls.tier);
       if (cta) {
         cta.href = 'https://navario.tech/quiz?utm_source=forloops&utm_medium=assess&utm_content=' + value;
+        // Track CTA clicks
+        cta.addEventListener('click', function() {
+          if (window.goatcounter && window.goatcounter.count) {
+            window.goatcounter.count({ path: '/assess/cta/' + value, event: true });
+          }
+        });
       }
     });
   });
