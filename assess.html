@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU AI Act Risk Check — Is your AI system affected?</title>
+  <meta name="description" content="Find out your EU AI Act risk tier in 10 seconds. One question. Instant result. Free.">
+  <link rel="canonical" href="https://for-loops.com/assess">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="EU AI Act Risk Check — 10 seconds, one question">
+  <meta property="og:description" content="Find out if your AI system is affected by the EU AI Act. One question. Instant result.">
+  <meta property="og:url" content="https://for-loops.com/assess">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EU AI Act Risk Check — 10 seconds">
+  <meta name="twitter:description" content="One question. Instant risk tier. Is your AI system affected?">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #6366f1, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #999;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* Question card */
+    .question-card {
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: left;
+    }
+
+    .question-card h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      display: block;
+      width: 100%;
+      padding: 14px 18px;
+      background: #1a1a1a;
+      border: 2px solid #262626;
+      border-radius: 10px;
+      color: #e5e5e5;
+      font-size: 15px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+    }
+
+    .option:hover {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    /* Result card */
+    .result-card {
+      display: none;
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: left;
+    }
+
+    .result-card.visible { display: block; }
+
+    .tier-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .tier-badge.high { background: linear-gradient(135deg, #ea580c, #f59e0b); }
+    .tier-badge.limited { background: linear-gradient(135deg, #ca8a04, #eab308); }
+    .tier-badge.minimal { background: linear-gradient(135deg, #16a34a, #22c55e); }
+    .tier-badge.unacceptable { background: linear-gradient(135deg, #dc2626, #ef4444); }
+
+    .result-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .result-card ul {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .result-card li {
+      padding: 8px 0;
+      font-size: 14px;
+      color: #ccc;
+      border-bottom: 1px solid #1f1f1f;
+      line-height: 1.5;
+    }
+
+    .result-card li:last-child { border-bottom: none; }
+
+    .result-card li strong { color: #fff; }
+
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .cta-primary {
+      display: block;
+      padding: 14px 24px;
+      background: #6366f1;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.15s;
+    }
+
+    .cta-primary:hover { background: #4f46e5; }
+
+    .cta-secondary {
+      display: block;
+      padding: 12px 24px;
+      background: transparent;
+      color: #999;
+      font-size: 13px;
+      text-decoration: none;
+      text-align: center;
+      transition: color 0.15s;
+    }
+
+    .cta-secondary:hover { color: #fff; }
+
+    .restart {
+      display: none;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      text-decoration: underline;
+    }
+
+    .restart.visible { display: inline-block; }
+
+    .footer {
+      margin-top: 48px;
+      font-size: 12px;
+      color: #444;
+      text-align: center;
+    }
+
+    .footer a { color: #666; text-decoration: none; }
+    .footer a:hover { color: #999; }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 28px; }
+      .question-card, .result-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <span class="badge">Free, 10 seconds, no signup</span>
+  <h1>Is your AI system <em>affected?</em></h1>
+  <p class="subtitle">The EU AI Act is already in force. Find out your risk tier.</p>
+
+  <!-- Question -->
+  <div class="question-card" id="question">
+    <h2>What does your AI system do?</h2>
+    <div class="options">
+      <button class="option" data-value="chatbot">Customer support chatbot or virtual assistant</button>
+      <button class="option" data-value="hiring">Hiring, recruitment, or employee evaluation</button>
+      <button class="option" data-value="credit">Credit scoring, lending, or insurance pricing</button>
+      <button class="option" data-value="medical">Medical diagnosis, triage, or clinical decision support</button>
+      <button class="option" data-value="content">Content generation (text, images, audio, video)</button>
+      <button class="option" data-value="analytics">Internal analytics, data processing, or automation</button>
+      <button class="option" data-value="moderation">Content moderation or safety filtering</button>
+      <button class="option" data-value="other">Something else</button>
+    </div>
+  </div>
+
+  <!-- Results (hidden until click) -->
+  <div class="result-card" id="result-high">
+    <span class="tier-badge high">HIGH RISK</span>
+    <h3>Your AI system likely falls under Annex III of the EU AI Act.</h3>
+    <ul>
+      <li><strong>What this means:</strong> Full compliance required before deploying in the EU. Risk management, bias audits, technical documentation, human oversight, and EU database registration.</li>
+      <li><strong>Deadline:</strong> August 2, 2026 (or December 2027 if the Digital Omnibus delay passes). Either way, compliance work takes months.</li>
+      <li><strong>Penalty for non-compliance:</strong> Up to 35,000,000 EUR or 7% of global turnover, whichever is higher.</li>
+    </ul>
+    <div class="cta-group">
+      <a class="cta-primary" id="cta-high" href="https://navario.tech/quiz">Get your exact obligations (2-min detailed assessment)</a>
+      <a class="cta-secondary" href="https://github.com/Sagar-Gogineni/agentguard">View the open-source compliance SDK on GitHub</a>
+    </div>
+  </div>
+
+  <div class="result-card" id="result-limited">
+    <span class="tier-badge limited">LIMITED RISK</span>
+    <h3>Your AI system has transparency obligations under Article 50.</h3>
+    <ul>
+      <li><strong>What this means:</strong> Users must be informed they're interacting with AI. AI-generated content must be machine-readable labeled.</li>
+      <li><strong>Deadline:</strong> August 2, 2026.</li>
+      <li><strong>Good news:</strong> Compliance is straightforward. Transparency disclosures and content labeling can be implemented in a day.</li>
+    </ul>
+    <div class="cta-group">
+      <a class="cta-primary" id="cta-limited" href="https://navario.tech/quiz">Get your specific obligations (2-min detailed assessment)</a>
+      <a class="cta-secondary" href="https://github.com/Sagar-Gogineni/agentguard">View the open-source compliance SDK on GitHub</a>
+    </div>
+  </div>
+
+  <div class="result-card" id="result-minimal">
+    <span class="tier-badge minimal">MINIMAL RISK</span>
+    <h3>No mandatory requirements under the EU AI Act.</h3>
+    <ul>
+      <li><strong>What this means:</strong> Your AI system doesn't trigger mandatory compliance obligations. Voluntary codes of conduct are encouraged.</li>
+      <li><strong>However:</strong> If your system evolves (new features, new data types, new use cases), your classification could change. Internal tools that start making decisions about people can shift to high-risk.</li>
+      <li><strong>Recommended:</strong> Turn on audit logging anyway. It's free and gives you a documented compliance trail.</li>
+    </ul>
+    <div class="cta-group">
+      <a class="cta-primary" id="cta-minimal" href="https://navario.tech/quiz">Verify with the detailed assessment (2 min)</a>
+      <a class="cta-secondary" href="https://github.com/Sagar-Gogineni/agentguard">View the open-source compliance SDK on GitHub</a>
+    </div>
+  </div>
+
+  <button class="restart" id="restart">Check another system</button>
+
+  <div class="footer">
+    <p>Classification based on <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689">Regulation (EU) 2024/1689</a>. This is a rough indicator, not legal advice. Take the <a href="https://navario.tech/quiz">full assessment</a> for your exact obligations.</p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var classifications = {
+    chatbot:    { tier: 'limited',  result: 'result-limited' },
+    hiring:     { tier: 'high',     result: 'result-high' },
+    credit:     { tier: 'high',     result: 'result-high' },
+    medical:    { tier: 'high',     result: 'result-high' },
+    content:    { tier: 'limited',  result: 'result-limited' },
+    analytics:  { tier: 'minimal',  result: 'result-minimal' },
+    moderation: { tier: 'minimal',  result: 'result-minimal' },
+    other:      { tier: 'limited',  result: 'result-limited' }
+  };
+
+  var question = document.getElementById('question');
+  var restart = document.getElementById('restart');
+  var options = document.querySelectorAll('.option');
+
+  options.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var value = btn.getAttribute('data-value');
+      var cls = classifications[value];
+      if (!cls) return;
+
+      // Hide question, show result
+      question.style.display = 'none';
+      document.getElementById(cls.result).classList.add('visible');
+      restart.classList.add('visible');
+
+      // Add UTM to CTAs so navario.tech analytics knows which use case drove them
+      var cta = document.getElementById('cta-' + cls.tier);
+      if (cta) {
+        cta.href = 'https://navario.tech/quiz?utm_source=forloops&utm_medium=assess&utm_content=' + value;
+      }
+    });
+  });
+
+  restart.addEventListener('click', function() {
+    question.style.display = 'block';
+    document.querySelectorAll('.result-card').forEach(function(el) {
+      el.classList.remove('visible');
+    });
+    restart.classList.remove('visible');
+  });
+})();
+</script>
+
+</body>
+</html>
